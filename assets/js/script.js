@@ -1,12 +1,21 @@
 var formEl = document.querySelector("#task-form");
 var tasksToDoEl = document.querySelector("#tasks-to-do");
 
-
+// Function handles data from form on sumbmit
 // Function called on event submit from event Listener below
 var taskFormHandler = function () {
     event.preventDefault();
     var taskNameInput = document.querySelector("input[name='task-name']").value;
     var taskTypeInput = document.querySelector("select[name='task-type']").value;
+
+    //form input validation
+    if(!taskNameInput || !taskTypeInput){
+        alert("Please fill out the task form before adding!");
+        return false;
+    }
+
+    //reset form after task added
+    formEl.reset();
 
     // package data as object
     var taskDataObj = {
@@ -18,6 +27,7 @@ var taskFormHandler = function () {
     createTaskEl(taskDataObj);
 }
 
+// Create task function on submit
 var createTaskEl = function (taskDataObj) {
     // creates <li> item
     var listItemEl = document.createElement("li");
