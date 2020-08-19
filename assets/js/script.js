@@ -1,5 +1,7 @@
 var formEl = document.querySelector("#task-form");
 var tasksToDoEl = document.querySelector("#tasks-to-do");
+var taskIdCounter = 0;
+
 
 // Function handles data from form on sumbmit
 // Function called on event submit from event Listener below
@@ -27,26 +29,73 @@ var taskFormHandler = function () {
     createTaskEl(taskDataObj);
 }
 
+// add buttons with unioque id 
+var createTaskActions = function(taskId) {
+    var actionContainerEl = document.createElement("div");
+    actionContainerEl.className = "task-actions";
+
+    //create edit button
+    var editButtonEl = document.createElement("button");
+    editButtonEl.textContent = "Edit";
+    editButtonEl.className = "btn edit-btn";
+    editButtonEl.setAttribute("data-task-id", taskId);
+
+    actionContainerEl.appendChild(editButtonEl);
+
+    // create delete button
+    var deleteButtonEl = document.createElement("button");
+    deleteButtonEl.textContent = "Delete";
+    deleteButtonEl.className = "btn delete-btn";
+    deleteButtonEl.setAttribute("data-task-id", taskId);
+
+    actionContainerEl.appendChild(deleteButtonEl);
+
+    var statusSelectEl = document.createElement("select");
+    statusSelectEl.className = "select-status";
+    statusSelectEl.setAttribute("name", "status-change");
+    statusSelectEl.setAttribute("data-task-id", taskId);
+
+    //Status Array for dropdown option on dynamic generated select button
+    var statusChoices = ["To Do", "In Progress", "Completed"];
+
+    actionContainerEl.appendChild(statusSelectEl);
+    for (var i = 0; i < statusChoices.length; i++) {
+        // create option element
+        var statusOptionEl = document.createElement("option");
+        statusOptionEl.textContent = statusChoices[i];
+        statusOptionEl.setAttribute("value", statusChoices[i]);
+      
+        // append to select
+        statusSelectEl.appendChild(statusOptionEl);
+      }
+
+    return actionContainerEl;
+}
+
 // Create task function on submit
 var createTaskEl = function (taskDataObj) {
+
     // creates <li> item
     var listItemEl = document.createElement("li");
     listItemEl.className = "task-item";
 
-    //create div to hold task info and add to list item
+    // add task id as a custom attribute
+    listItemEl.setAttribute("data-task-id", taskIdCounter);
+
+    //create and append div and h3 for task. Task box in column with values from form (vars)
     var taskInfoEl = document.createElement("div");
-
-    //class name 
     taskInfoEl.className = 'task-info';
-
-    // add HTML content to div
     taskInfoEl.innerHTML = "<h3 class = 'task-name'>" + taskDataObj.name + "</h3><span class='task-type'>" + taskDataObj.type + "</span>";
-
-    //add div(with html generated content and value from input) to task below task (CSS)
     listItemEl.appendChild(taskInfoEl);
+
+    var taskActionsEl = createTaskActions(taskIdCounter);
+    listItemEl.appendChild(taskActionsEl);
 
     // add task to list (has value from input and div with HTM elemnts(to be formatted by CSS) with type from select inside)
     tasksToDoEl.appendChild(listItemEl);
+
+    //increment task counter for next unique ID
+    taskIdCounter++;
 }
 
 formEl.addEventListener("submit", taskFormHandler);
