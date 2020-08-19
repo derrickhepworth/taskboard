@@ -1,6 +1,8 @@
 var formEl = document.querySelector("#task-form");
 var tasksToDoEl = document.querySelector("#tasks-to-do");
 var taskIdCounter = 0;
+var pageContentEl = document.querySelector("#page-content");
+
 
 
 // Function handles data from form on sumbmit
@@ -11,7 +13,7 @@ var taskFormHandler = function () {
     var taskTypeInput = document.querySelector("select[name='task-type']").value;
 
     //form input validation
-    if(!taskNameInput || !taskTypeInput){
+    if (!taskNameInput || !taskTypeInput) {
         alert("Please fill out the task form before adding!");
         return false;
     }
@@ -30,7 +32,7 @@ var taskFormHandler = function () {
 }
 
 // add buttons with unioque id 
-var createTaskActions = function(taskId) {
+var createTaskActions = function (taskId) {
     var actionContainerEl = document.createElement("div");
     actionContainerEl.className = "task-actions";
 
@@ -64,10 +66,10 @@ var createTaskActions = function(taskId) {
         var statusOptionEl = document.createElement("option");
         statusOptionEl.textContent = statusChoices[i];
         statusOptionEl.setAttribute("value", statusChoices[i]);
-      
+
         // append to select
         statusSelectEl.appendChild(statusOptionEl);
-      }
+    }
 
     return actionContainerEl;
 }
@@ -99,5 +101,21 @@ var createTaskEl = function (taskDataObj) {
 }
 
 formEl.addEventListener("submit", taskFormHandler);
+
+var deleteTask = function (taskId) {
+    var taskSelected = document.querySelector(".task-item[data-task-id='" + taskId + "']");
+    taskSelected.remove();
+};
+
+var taskButtonHandler = function (event) {
+    console.log(event.target);
+    if (event.target.matches(".delete-btn")) {
+        //get the element's task id
+        var taskId = event.target.getAttribute("data-task-id");
+        deleteTask(taskId);
+    }
+};
+
+pageContentEl.addEventListener("click", taskButtonHandler);
 
 
