@@ -2,6 +2,9 @@ var formEl = document.querySelector("#task-form");
 var tasksToDoEl = document.querySelector("#tasks-to-do");
 var taskIdCounter = 0;
 var pageContentEl = document.querySelector("#page-content");
+var taskInProgressEl = document.querySelector("#tasksinprogress");
+var tasksCompletedEl =  document.querySelector("tasks-completed");
+
 
 
 
