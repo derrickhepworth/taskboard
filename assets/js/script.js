@@ -5,6 +5,7 @@ var pageContentEl = document.querySelector("#page-content");
 
 
 
+
 // Function handles data from form on sumbmit
 // Function called on event submit from event Listener below
 var taskFormHandler = function () {
@@ -20,15 +21,45 @@ var taskFormHandler = function () {
 
     //reset form after task added
     formEl.reset();
+    
+    var completeEditTask = function(taskName, taskType, taskId) {
+        // find matching task list item
+        var taskSelected = document.querySelector(".task-item[data-task-id= '" + taskId + "']");
 
-    // package data as object
-    var taskDataObj = {
-        name: taskNameInput,
-        type: taskTypeInput
+        //set new values
+        taskSelected.querySelector("h3.task-name").textContent = taskName;
+        taskSelected.querySelector("span.task-type").textContent = taskType;
+
+        alert("Task Updated!");
+
+        formEl.removeAttribute("data-task-id");
+        document.querySelector("#save-task").textContent = "Add Task";
     };
 
+    //conditional function for edit vs. new task
+    var isEdit = formEl.hasAttribute("data-task-id");
+    if (isEdit) {
+        var taskId = formEl.getAttribute("data-task-id");
+        completeEditTask(taskNameInput, taskTypeInput, taskId);
+
+    } else {
+        var taskDataObj = {
+            name: taskNameInput,
+            type: taskTypeInput
+        }
+
+
+        // package data as object
+        var taskDataObj = {
+            name: taskNameInput,
+            type: taskTypeInput
+        };
+
+        createTaskEl(taskDataObj);
+    }
+
     //send as argument to createTaskEl
-    createTaskEl(taskDataObj);
+    // createTaskEl(taskDataObj);
 }
 
 // add buttons with unioque id 
@@ -74,7 +105,7 @@ var createTaskActions = function (taskId) {
     return actionContainerEl;
 }
 
-// Create task function on submit
+// Create new task function on submit
 var createTaskEl = function (taskDataObj) {
 
     // creates <li> item
