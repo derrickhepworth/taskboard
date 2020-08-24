@@ -198,7 +198,7 @@ var dragTaskHandler = function (event) {
     event.dataTransfer.setData("text/plain", taskId);
 
     var getId = event.dataTransfer.getData("text/plain");
-    console.log("getId:", getId, typeof getId);
+    // console.log("getId:", getId, typeof getId);
 
 };
 
@@ -215,8 +215,21 @@ var dropTaskHandler = function(event) {
   
     var dropZoneEl =event.target.closest(".task-list");
         var statusType = dropZoneEl.id;
-        console.log(statusType);
-        console.dir(dropZoneEl);
+        
+    // set status of task based on dropzone id
+    var statusSelectEl = draggableElement.querySelector("select[name='status-change']");
+        
+    if (statusType === 'tasks-to-do') {
+        statusSelectEl.selectedIndex = 0;
+    } 
+    else if (statusType === 'tasks-in-progress') {
+        statusSelectEl.selectedIndex = 1;
+    } 
+    else if (statusType === "tasks-completed") {
+        statusSelectEl.selectedIndex = 2;
+    }
+
+    dropZoneEl.appendChild(draggableElement);
 };
 
 pageContentEl.addEventListener("click", taskButtonHandler);
