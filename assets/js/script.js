@@ -343,7 +343,7 @@ var loadTasks = function() {
         
     };
 };
-
+createTaskEl();
 loadTasks();
 
 pageContentEl.addEventListener("click", taskButtonHandler);
