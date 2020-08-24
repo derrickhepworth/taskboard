@@ -4,7 +4,7 @@ var taskIdCounter = 0;
 var pageContentEl = document.querySelector("#page-content");
 var tasksInProgressEl = document.querySelector("#tasks-in-progress");
 var tasksCompletedEl = document.querySelector("#tasks-completed");
-
+var tasks = [];
 
 // Function handles data from form on sumbmit
 // Function called on event submit from event Listener below
@@ -30,6 +30,16 @@ var taskFormHandler = function () {
         taskSelected.querySelector("h3.task-name").textContent = taskName;
         taskSelected.querySelector("span.task-type").textContent = taskType;
 
+
+        //loop through tasks array and task object with new content
+        for (var i =0; i< tasks.length; i++) {
+            if (tasks[i].id === parseInt(taskId)) {
+                tasks[i].name = taskName;
+                tasks[i].type = taskType;
+            }
+        };
+
+
         alert("Task Updated!");
 
         formEl.removeAttribute("data-task-id");
@@ -52,14 +62,14 @@ var taskFormHandler = function () {
         // package data as object
         var taskDataObj = {
             name: taskNameInput,
-            type: taskTypeInput
+            type: taskTypeInput,
+            status: "to do"
         };
 
         createTaskEl(taskDataObj);
     }
 
     //send as argument to createTaskEl
-    // createTaskEl(taskDataObj);
 }
 
 // add buttons with unioque id 
@@ -122,6 +132,10 @@ var createTaskEl = function (taskDataObj) {
     taskInfoEl.innerHTML = "<h3 class = 'task-name'>" + taskDataObj.name + "</h3><span class='task-type'>" + taskDataObj.type + "</span>";
     listItemEl.appendChild(taskInfoEl);
 
+    taskDataObj.id = taskIdCounter;
+
+    tasks.push(taskDataObj);
+
     var taskActionsEl = createTaskActions(taskIdCounter);
     listItemEl.appendChild(taskActionsEl);
 
@@ -137,6 +151,17 @@ formEl.addEventListener("submit", taskFormHandler);
 var deleteTask = function (taskId) {
     var taskSelected = document.querySelector(".task-item[data-task-id='" + taskId + "']");
     taskSelected.remove();
+
+    // on delete create new array, cycle through tasks array and update new array with all tasks EXCEPT deleted tasks
+    var updatedTaskArr = [];
+    for (var i = 0; i <tasks.length; i++ ){
+        if (tasks[i].id !== parseInt(taskId)){
+            updatedTaskArr.push(tasks[i]);
+        }
+    }
+
+    // reassign the new array as the tasks array (won't have deleted task)
+    tasks = updatedTaskArr;
 };
 
 var taskButtonHandler = function (event) {
@@ -190,7 +215,15 @@ var taskStatusChangeHandler = function (event) {
         tasksInProgressEl.appendChild(taskSelected);
     } else if (statusValue === "completed") {
         tasksCompletedEl.appendChild(taskSelected);
-    }
+    };
+
+    // EDIT STATUS THROUGH DROPDOWN
+    //update task status value in tasks array
+    for (var i=0; i< tasks.length; i++){
+        if (tasks[i].id === parseInt(taskId)){
+            tasks[i].status = statusValue;
+        };
+    };
 }
 
 var dragTaskHandler = function (event) {
@@ -227,10 +260,18 @@ var dropTaskHandler = function (event) {
     }
     else if (statusType === "tasks-completed") {
         statusSelectEl.selectedIndex = 2;
-    }
+    };
 
     dropZoneEl.removeAttribute("style");
     dropZoneEl.appendChild(draggableElement);
+
+
+    for (var i = 0; i<tasks.length; i++){
+        if (tasks[i].id === parseInt(id)) {
+            tasks[i].status = statusSelectEl.value.toLowerCase();
+        }
+    }
+
 };
 
 var dragLeaveHandler = function(event){
