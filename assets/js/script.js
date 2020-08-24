@@ -191,10 +191,15 @@ if (statusValue === "to do"){
 } else if (statusValue === "completed") {
     tasksCompletedEl.appendChild(taskSelected);
 }
+}
 
-};
+var dragTaskHandler = function (event) {
+ var taskId = event.target.getAttribute("data-task-id");
+ console.log("Task ID;", taskId);
+}
 
 pageContentEl.addEventListener("click", taskButtonHandler);
 pageContentEl.addEventListener("change", taskStatusChangeHandler);
+pageContentEl.addEventListener("dragstart", dragTaskHandler);
 
 
