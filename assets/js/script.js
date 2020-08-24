@@ -202,17 +202,27 @@ var dragTaskHandler = function (event) {
 
 };
 
-var dropZoneDragHandler = function(event) {
-var taskListEl = event.target.closest(".task-list");
-    if(taskListEl){
+var dropZoneDragHandler = function (event) {
+    var taskListEl = event.target.closest(".task-list");
+    if (taskListEl) {
         event.preventDefault();
-        console.dir(taskListEl);
     }
+};
+
+var dropTaskHandler = function(event) {
+    var id = event.dataTransfer.getData("text/plain");
+    var draggableElement = document.querySelector("[data-task-id= '" + id + "']");
+  
+    var dropZoneEl =event.target.closest(".task-list");
+        var statusType = dropZoneEl.id;
+        console.log(statusType);
+        console.dir(dropZoneEl);
 };
 
 pageContentEl.addEventListener("click", taskButtonHandler);
 pageContentEl.addEventListener("change", taskStatusChangeHandler);
 pageContentEl.addEventListener("dragstart", dragTaskHandler);
 pageContentEl.addEventListener("dragover", dropZoneDragHandler);
+pageContentEl.addEventListener("drop", dropTaskHandler);
 
 
