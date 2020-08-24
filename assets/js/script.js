@@ -3,7 +3,7 @@ var tasksToDoEl = document.querySelector("#tasks-to-do");
 var taskIdCounter = 0;
 var pageContentEl = document.querySelector("#page-content");
 var tasksInProgressEl = document.querySelector("#tasks-in-progress");
-var tasksCompletedEl =  document.querySelector("#tasks-completed");
+var tasksCompletedEl = document.querySelector("#tasks-completed");
 
 
 // Function handles data from form on sumbmit
@@ -21,8 +21,8 @@ var taskFormHandler = function () {
 
     //reset form after task added
     formEl.reset();
-    
-    var completeEditTask = function(taskName, taskType, taskId) {
+
+    var completeEditTask = function (taskName, taskType, taskId) {
         // find matching task list item
         var taskSelected = document.querySelector(".task-item[data-task-id= '" + taskId + "']");
 
@@ -173,29 +173,33 @@ var editTask = function (taskId) {
 };
 
 var taskStatusChangeHandler = function (event) {
-// get task item's id
-var taskId = event.target.getAttribute("data-task-id");
+    // get task item's id
+    var taskId = event.target.getAttribute("data-task-id");
 
-//get the currently selected option value and conver to lowercase
-var statusValue = event.target.value.toLowerCase();
+    //get the currently selected option value and conver to lowercase
+    var statusValue = event.target.value.toLowerCase();
 
-//find parent task item based on id
-var taskSelected = document.querySelector(".task-item[data-task-id='" +taskId + "']");
+    //find parent task item based on id
+    var taskSelected = document.querySelector(".task-item[data-task-id='" + taskId + "']");
 
 
-//column conditional -assign task as child based on taskSelected (event handler)
-if (statusValue === "to do"){
-    tasksToDoEl.appendChild(taskSelected);
-} else if  (statusValue === "in progress") {
-    tasksInProgressEl.appendChild(taskSelected);
-} else if (statusValue === "completed") {
-    tasksCompletedEl.appendChild(taskSelected);
-}
+    //column conditional -assign task as child based on taskSelected (event handler)
+    if (statusValue === "to do") {
+        tasksToDoEl.appendChild(taskSelected);
+    } else if (statusValue === "in progress") {
+        tasksInProgressEl.appendChild(taskSelected);
+    } else if (statusValue === "completed") {
+        tasksCompletedEl.appendChild(taskSelected);
+    }
 }
 
 var dragTaskHandler = function (event) {
- var taskId = event.target.getAttribute("data-task-id");
- console.log("Task ID;", taskId);
+    var taskId = event.target.getAttribute("data-task-id");
+    event.dataTransfer.setData("text/plain", taskId);
+
+    var getId = event.dataTransfer.getData("text/plain");
+    console.log("getId:", getId, typeof getId);
+
 }
 
 pageContentEl.addEventListener("click", taskButtonHandler);
