@@ -1,7 +1,9 @@
 # Taskboard
-A personal kanban task tracking application. Track progress by tasks. 
+A personal kanban task tracking application. Track progress by tasks. Drag and Drop. Uses local storage to persist tasks. 
 
-## Future updates:
+## https://derrickhepworth.github.io/taskboard/.
+
+### Future updates:
 Animation css for completed task.  
 Only one in to do at a time.   
 Projects where color coding tasks.   
