@@ -303,63 +303,63 @@ var loadTasks = function () {
     if (gotTasks === null) {
         var firstTaskArr = [
             {
-                name: "Edit me to make your first Task!", 
+                name: "Edit me to make your first Task!",
                 type: "print",
-                status: "to do", 
+                status: "to do",
                 id: 0
-               }
+            }
         ];
-            tasks = firstTaskArr;
-        
-            saveTasks();
-           
-     }else if (gotTasks){
+        tasks = firstTaskArr;
 
-    //iterate through JSON array pulled from local to create DOM element tasks
-    for (var i = 0; i < tasks.length; i++) {
-        tasks[i].id = taskIdCounter;
-        console.log(tasks[i]);
+        saveTasks();
 
-        var listItemEl = document.createElement("li");
-        listItemEl.className = "task-item";
+    } else if (gotTasks) {
 
-        listItemEl.setAttribute("data-task-id", tasks[i].id);
-        listItemEl.setAttribute("draggable", "true");
-        // console.log(listItemEl);
+        //iterate through JSON array pulled from local to create DOM element tasks
+        for (var i = 0; i < tasks.length; i++) {
+            tasks[i].id = taskIdCounter;
+            console.log(tasks[i]);
 
-        var taskInfoEl = document.createElement("div");
-        taskInfoEl.className = 'task-info';
-        taskInfoEl.innerHTML = "<h3 class='task-name'>" + tasks[i].name + "</h3><span class='task-type'>" + tasks[i].type + "</span>";
-        listItemEl.appendChild(taskInfoEl);
+            var listItemEl = document.createElement("li");
+            listItemEl.className = "task-item";
 
-        var taskActionsEl = createTaskActions(tasks[i].id);
+            listItemEl.setAttribute("data-task-id", tasks[i].id);
+            listItemEl.setAttribute("draggable", "true");
+            // console.log(listItemEl);
 
-        listItemEl.appendChild(taskActionsEl);
+            var taskInfoEl = document.createElement("div");
+            taskInfoEl.className = 'task-info';
+            taskInfoEl.innerHTML = "<h3 class='task-name'>" + tasks[i].name + "</h3><span class='task-type'>" + tasks[i].type + "</span>";
+            listItemEl.appendChild(taskInfoEl);
 
-        if (tasks[i].status === "to do") {
-            listItemEl.querySelector("select[name='status-change']").selectedIndex = 0;
-            tasksToDoEl.appendChild(listItemEl);
-        }
-        else if (tasks[i].status === "in progress") {
-            listItemEl.querySelector("select[name='status-change']").selectedIndex = 1;
-            tasksInProgressEl.appendChild(listItemEl);
+            var taskActionsEl = createTaskActions(tasks[i].id);
 
-        }
-        else if (tasks[i].status === "completed") {
-            listItemEl.querySelector("select[name='status-change']").selectedIndex = 2;
-            tasksCompletedEl.appendChild(listItemEl);
+            listItemEl.appendChild(taskActionsEl);
+
+            if (tasks[i].status === "to do") {
+                listItemEl.querySelector("select[name='status-change']").selectedIndex = 0;
+                tasksToDoEl.appendChild(listItemEl);
+            }
+            else if (tasks[i].status === "in progress") {
+                listItemEl.querySelector("select[name='status-change']").selectedIndex = 1;
+                tasksInProgressEl.appendChild(listItemEl);
+
+            }
+            else if (tasks[i].status === "completed") {
+                listItemEl.querySelector("select[name='status-change']").selectedIndex = 2;
+                tasksCompletedEl.appendChild(listItemEl);
+            };
+
+            taskIdCounter++;
+            console.log(listItemEl);
+
         };
-
-        taskIdCounter++;
-        console.log(listItemEl);
-
-    };
     };
 };
 
 
-loadTasks();
 
+loadTasks();
 pageContentEl.addEventListener("click", taskButtonHandler);
 pageContentEl.addEventListener("change", taskStatusChangeHandler);
 pageContentEl.addEventListener("dragstart", dragTaskHandler);
