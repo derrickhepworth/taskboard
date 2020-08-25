@@ -144,6 +144,7 @@ var createTaskEl = function (taskDataObj) {
     saveTasks();
 }
 
+formEl.addEventListener("submit", taskFormHandler);
 
 var deleteTask = function (taskId) {
     var taskSelected = document.querySelector(".task-item[data-task-id='" + taskId + "']");
@@ -348,7 +349,6 @@ var loadTasks = function() {
 
 loadTasks();
 
-formEl.addEventListener("submit", taskFormHandler);
 pageContentEl.addEventListener("click", taskButtonHandler);
 pageContentEl.addEventListener("change", taskStatusChangeHandler);
 pageContentEl.addEventListener("dragstart", dragTaskHandler);
