@@ -290,15 +290,19 @@ var saveTasks = function () {
     localStorage.setItem("tasks", JSON.stringify(tasks));
 };
 
+
 var loadTasks = function() {
     // pulls tasks parameters ("key", value) from local storage (as string)
     var gotTasks = localStorage.getItem("tasks", tasks);
     // console.log("gotTasks:", gotTasks);
-    
     // convert string obj to JSON
     tasks = JSON.parse(gotTasks);
     console.log(tasks)
     
+    if (gotTasks === null) {
+         return;
+     }else{
+     
     //iterate through JSON array pulled from local to create DOM element tasks
     for (var i = 0; i < tasks.length; i++) {
         tasks[i].id =taskIdCounter;
@@ -339,6 +343,8 @@ var loadTasks = function() {
         
     };
 };
+};
+
 
 loadTasks();
 
